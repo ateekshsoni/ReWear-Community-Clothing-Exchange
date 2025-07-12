@@ -30,7 +30,8 @@ async function startServer() {
       console.log(`🌍 Server running at http://${HOST}:${PORT}`);
       console.log(`📊 Environment: ${config.NODE_ENV}`);
       console.log(`🔍 Health check: http://${HOST}:${PORT}/health`);
-      console.log(`📋 API Routes: http://${HOST}:${PORT}/api/auth`);
+      console.log(`� Auth API: http://${HOST}:${PORT}/api/auth`);
+      console.log(`📦 Products API: http://${HOST}:${PORT}/api/products`);
       console.log(
         `💾 Memory usage: ${Math.round(
           process.memoryUsage().heapUsed / 1024 / 1024

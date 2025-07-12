@@ -13,6 +13,10 @@ import { connectDB } from "./src/database/connection.js";
 import { config } from "./src/config/database.js";
 
 //importing routes
+import authRoutes from "./src/routes/auth.routes.js";
+import productRoutes from "./src/routes/productRoutes.js";
+import { errorMiddleware, notFoundMiddleware } from "./src/middleware/errorMiddleware.js";
+
 
 //initializing express app
 const app = express();
@@ -122,17 +126,22 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(cookieParser());
 
 //routes
+// API routes
+app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
 
 app.get("/", (req, res) => {
   res.json({
     success: true,
-    message: "Welcome to GateKeeper Authentication API",
+    message: "Welcome to reWear - Community Clothing Exchange API",
     version: "1.0.0",
     status: "running",
     timestamp: new Date().toISOString(),
     endpoints: {
       auth: "/api/auth",
+      products: "/api/products",
       health: "/health",
+      docs: "/api/docs", // Future API documentation
     },
   });
 });
@@ -141,7 +150,7 @@ app.get("/", (req, res) => {
 app.get("/health", (req, res) => {
   res.status(200).json({
     status: "ok",
-    message: "Server is running smoothly",
+    message: "reWear server is running smoothly",
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
     memory: {
@@ -152,37 +161,10 @@ app.get("/health", (req, res) => {
   });
 });
 
+// 404 handler for unknown routes
+app.use(notFoundMiddleware);
+
 //global error handler
-app.use((error, req, res, next) => {
-  console.error("Error:", error);
-
-  // Don't leak sensitive information in production
-  const isDevelopment = config.NODE_ENV === "DEVELOPMENT";
-
-  let statusCode = error.statusCode || error.status || 500;
-  let message = error.message || "Internal Server Error";
-
-  // Handle specific error types
-  if (error.name === "ValidationError") {
-    statusCode = 400;
-    message = "Validation Error";
-  } else if (error.name === "CastError") {
-    statusCode = 400;
-    message = "Invalid ID format";
-  } else if (error.code === 11000) {
-    statusCode = 409;
-    message = "Duplicate field value";
-  }
-
-  res.status(statusCode).json({
-    success: false,
-    message: message,
-    timestamp: new Date().toISOString(),
-    ...(isDevelopment && {
-      stack: error.stack,
-      details: error,
-    }),
-  });
-});
+app.use(errorMiddleware);
 
 export default app;
