@@ -11,6 +11,7 @@ const Navigation = ({ userPoints = 1250 }) => {
                 </div>
                 <div className="nav-links">
                     <Link to="/item-detail" className="nav-link">Browse</Link>
+                    <Link to="/success-stories" className="nav-link">Success Stories</Link>
                     <div className="points-display">
                         <i className="fas fa-coins"></i>
                         <span>{userPoints.toLocaleString()} pts</span>
