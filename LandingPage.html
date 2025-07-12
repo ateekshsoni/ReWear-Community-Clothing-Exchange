@@ -1,0 +1,333 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ReWear - Sustainable fashion platform where you can swap clothes, earn points, and give your wardrobe a second life. Join the eco-friendly fashion revolution!">
+    <meta name="keywords" content="sustainable fashion, clothes swapping, second-hand clothing, eco-friendly fashion, wardrobe exchange">
+    <meta name="author" content="ReWear">
+    <meta property="og:title" content="ReWear - Give Your Clothes a Second Life">
+    <meta property="og:description" content="Join ReWear – the sustainable fashion community where your unworn clothes find new homes while you discover pre-loved treasures.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rewear.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#667eea">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="LandingPage.css">
+    <title>ReWear - Give Your Clothes a Second Life</title>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Loading ReWear...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>ReWear</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" aria-label="Go to home section">Home</a></li>
+                <li><a href="#how-it-works" aria-label="Learn how it works">How It Works</a></li>
+                <li><a href="#featured" aria-label="Browse featured items">Featured</a></li>
+                <li><a href="#about" aria-label="About ReWear">About</a></li>
+                <li><button class="nav-cta" aria-label="Sign up for ReWear"><a href="sign-up.html">Sign Up</a></button></li>
+            </ul>
+            <div class="hamburger" aria-label="Toggle navigation menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-bg-leaves">
+            <!-- SVG leafy background -->
+            <svg width="100%" height="100%" viewBox="0 0 1440 320" fill="none" xmlns="http://www.w3.org/2000/svg" class="hero-leaves-svg">
+                <path fill="#e8e6c3" fill-opacity="0.3" d="M0,160L60,170.7C120,181,240,203,360,197.3C480,192,600,160,720,133.3C840,107,960,85,1080,101.3C1200,117,1320,171,1380,197.3L1440,224L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+            </svg>
+        </div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <span class="badge-eco">Sustainable Fashion</span>
+                <h1 class="hero-title">Give Your Clothes a Second Life</h1>
+                <p class="hero-subtitle">Join ReWear – the sustainable fashion community where your unworn clothes find new homes while you discover pre-loved treasures.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" aria-label="Start swapping clothes">Start Swapping</button>
+                    <button class="btn btn-secondary" aria-label="Browse available items">Browse Items</button>
+                    <button class="btn btn-tertiary" aria-label="List your items for swapping">List an Item</button>
+                </div>
+                <div class="trust-badge">
+                    <span>🌿 Trusted by 5,000+ eco-conscious users</span>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-visual">
+                    <div class="clothing-item item-1" aria-label="T-shirt">👕</div>
+                    <div class="clothing-item item-2" aria-label="Dress">👗</div>
+                    <div class="clothing-item item-3" aria-label="Jeans">👖</div>
+                    <div class="clothing-item item-4" aria-label="Coat">🧥</div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 5L12 19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+        <!-- Wavy SVG Divider -->
+        <div class="wavy-divider">
+            <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill="#f8f7f3" d="M0,32L60,37.3C120,43,240,53,360,53.3C480,53,600,43,720,37.3C840,32,960,32,1080,37.3C1200,43,1320,53,1380,58.7L1440,64L1440,80L1380,80C1320,80,1200,80,1080,80C960,80,840,80,720,80C600,80,480,80,360,80C240,80,120,80,60,80L0,80Z"></path></svg>
+        </div>
+    </section>
+
+    <!-- Aesthetic Sign Up Form Section -->
+    <section class="signup-form-section fade-in">
+      <div class="container">
+        <form class="aesthetic-form">
+          <h2>Join the ReWear Community</h2>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <div class="input-icon">
+              <input type="email" id="email" placeholder="you@example.com" required>
+              <span class="icon">@</span>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">
+            <span>Sign Up</span>
+            <span class="btn-icon">🌱</span>
+          </button>
+          <div class="privacy-note">We respect your privacy. No spam, ever.</div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Platform Introduction -->
+    <section class="platform-intro">
+        <div class="container">
+            <h2 class="section-title">Fashion Forward, Planet Friendly</h2>
+            <p class="intro-text">Every year, millions of tons of clothing end up in landfills while perfectly good garments sit unused in closets. ReWear changes that by connecting conscious consumers who believe that great style doesn't require constant consumption.</p>
+            
+            <div class="features-grid">
+                <div class="feature-card" tabindex="0">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Swap Directly</h3>
+                    <p>Exchange items directly with other users for pieces you love</p>
+                </div>
+                <div class="feature-card" tabindex="0">
+                    <div class="feature-icon">⭐</div>
+                    <h3>Earn Points</h3>
+                    <p>Get points by listing items that others want</p>
+                </div>
+                <div class="feature-card" tabindex="0">
+                    <div class="feature-icon">🎁</div>
+                    <h3>Redeem Points</h3>
+                    <p>Use your points for new-to-you pieces</p>
+                </div>
+                <div class="feature-card" tabindex="0">
+                    <div class="feature-icon">🤝</div>
+                    <h3>Build Connections</h3>
+                    <p>Connect with like-minded fashion lovers</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">Three Simple Steps to Sustainable Style</h2>
+            <div class="steps-container">
+                <div class="step" tabindex="0">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>List Your Items</h3>
+                        <p>Upload photos and details of clothes you no longer wear. Every listing earns you points!</p>
+                    </div>
+                </div>
+                <div class="step" tabindex="0">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Discover & Request</h3>
+                        <p>Browse thousands of pre-loved items. Request swaps or use points to redeem pieces you love.</p>
+                    </div>
+                </div>
+                <div class="step" tabindex="0">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Exchange & Enjoy</h3>
+                        <p>Connect with other users, arrange exchanges, and enjoy your new wardrobe additions guilt-free.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Items Carousel -->
+    <section id="featured" class="featured-items">
+        <div class="container">
+            <h2 class="section-title">Today's Fresh Finds</h2>
+            <div class="carousel-container">
+                <div class="carousel">
+                    <div class="carousel-track">
+                        <div class="item-card" tabindex="0" role="button" aria-label="Vintage Band Tee - 50 points">
+                            <div class="item-image">👕</div>
+                            <h4>Vintage Band Tee</h4>
+                            <p>Size M • Like New</p>
+                            <span class="points">50 points</span>
+                        </div>
+                        <div class="item-card" tabindex="0" role="button" aria-label="Summer Dress - 75 points">
+                            <div class="item-image">👗</div>
+                            <h4>Summer Dress</h4>
+                            <p>Size S • Excellent</p>
+                            <span class="points">75 points</span>
+                        </div>
+                        <div class="item-card" tabindex="0" role="button" aria-label="Designer Jeans - 100 points">
+                            <div class="item-image">👖</div>
+                            <h4>Designer Jeans</h4>
+                            <p>Size 32 • Good</p>
+                            <span class="points">100 points</span>
+                        </div>
+                        <div class="item-card" tabindex="0" role="button" aria-label="Winter Coat - 150 points">
+                            <div class="item-image">🧥</div>
+                            <h4>Winter Coat</h4>
+                            <p>Size L • Like New</p>
+                            <span class="points">150 points</span>
+                        </div>
+                        <div class="item-card" tabindex="0" role="button" aria-label="Heeled Boots - 80 points">
+                            <div class="item-image">👠</div>
+                            <h4>Heeled Boots</h4>
+                            <p>Size 8 • Good</p>
+                            <span class="points">80 points</span>
+                        </div>
+                        <div class="item-card" tabindex="0" role="button" aria-label="Baseball Cap - 25 points">
+                            <div class="item-image">🧢</div>
+                            <h4>Baseball Cap</h4>
+                            <p>One Size • Like New</p>
+                            <span class="points">25 points</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-btn prev-btn" aria-label="Previous items">‹</button>
+                <button class="carousel-btn next-btn" aria-label="Next items">›</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Value Propositions -->
+    <section class="value-props">
+        <div class="container">
+            <h2 class="section-title">Why ReWear?</h2>
+            <div class="props-grid">
+                <div class="prop-card" tabindex="0">
+                    <div class="prop-icon">🌱</div>
+                    <h3>Sustainable Impact</h3>
+                    <p>Reduce textile waste and your carbon footprint</p>
+                </div>
+                <div class="prop-card" tabindex="0">
+                    <div class="prop-icon">💰</div>
+                    <h3>Save Money</h3>
+                    <p>Get designer pieces at a fraction of retail cost</p>
+                </div>
+                <div class="prop-card" tabindex="0">
+                    <div class="prop-icon">🏠</div>
+                    <h3>Declutter Responsibly</h3>
+                    <p>Turn unused clothes into opportunities</p>
+                </div>
+                <div class="prop-card" tabindex="0">
+                    <div class="prop-icon">👥</div>
+                    <h3>Community Connection</h3>
+                    <p>Meet fashion enthusiasts who share your values</p>
+                </div>
+                <div class="prop-card" tabindex="0">
+                    <div class="prop-icon">✅</div>
+                    <h3>Quality Guaranteed</h3>
+                    <p>All items are reviewed before going live</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Start Your Sustainable Fashion Journey?</h2>
+                <p>Join thousands of fashion-conscious individuals who are already making a difference.</p>
+                <div class="cta-buttons">
+                    <button class="btn btn-primary btn-large">Join ReWear Today</button>
+                    <button class="btn btn-secondary btn-large">Learn More</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ReWear</h3>
+                    <p>Sustainable fashion for a better tomorrow</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Follow us on Instagram">📷</a>
+                        <a href="#" aria-label="Follow us on Twitter">🐦</a>
+                        <a href="#" aria-label="Follow us on Facebook">📘</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Browse Items</a></li>
+                        <li><a href="#">List Items</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Safety</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ReWear. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        ↑
+    </button>
+
+    <script src="LandingPage.js"></script>
+</body>
+</html>
