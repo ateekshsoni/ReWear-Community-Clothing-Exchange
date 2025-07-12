@@ -1,6 +1,6 @@
 import http from "http";
 import app from "./app.js";
-import { config } from "./src/config/config.js";
+import { config } from "./src/config/index.js";
 import { connectDB, disconnectDB } from "./src/database/connection.js";
 
 const PORT = config.PORT || 4000;

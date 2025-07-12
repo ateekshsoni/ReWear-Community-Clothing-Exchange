@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { getDataBaseConfig, getConnectionUris } from "../config/database";
+import { getDataBaseConfig, getConnectionUris } from "../config/database.js";
 
 let isConnected = false;
 let connectionsAttempt = 0;

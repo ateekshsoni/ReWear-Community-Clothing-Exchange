@@ -1,5 +1,5 @@
 import express from "express";
-import dotenv, { config } from "dotenv";
+import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import cors from "cors";
@@ -9,8 +9,8 @@ import compression from "compression";
 import morgan from "morgan";
 
 //importing database connections
-import { connectDB } from "./src/database/connection";
-import { config } from "./src/config/database";
+import { connectDB } from "./src/database/connection.js";
+import { config } from "./src/config/database.js";
 
 //importing routes
 
