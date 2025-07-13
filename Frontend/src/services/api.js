@@ -102,3 +102,4 @@ export const handleAPIError = (error) => {
     return error.message || 'An unexpected error occurred';
   }
 };
+
