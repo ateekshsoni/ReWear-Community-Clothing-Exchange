@@ -1,10 +1,16 @@
 // 📝 SignUp Page Component
-// User registration page converted from HTML to React
+// User registration page with reusable components and enhanced validation
 
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAuth } from '../hooks/useAuth';
+import { validateForm, validatePassword, validateEmail, validateName } from '../utils/validation';
+import Button from '../components/ui/Button';
+import Input from '../components/ui/Input';
+import Card from '../components/ui/Card';
+import Loading from '../components/ui/Loading';
+import SEO from '../components/common/SEO';
 import '../signup-styles.css';
 
 const SignUp = () => {
@@ -17,17 +23,7 @@ const SignUp = () => {
     newsletter: false
   });
   
-  const [showPassword, setShowPassword] = useState({
-    password: false,
-    confirmPassword: false
-  });
-  
-  const [passwordStrength, setPasswordStrength] = useState({
-    score: 0,
-    text: 'Password strength'
-  });
-  
-  const [passwordMatch, setPasswordMatch] = useState('');
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   
@@ -36,111 +32,95 @@ const SignUp = () => {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+    const newValue = type === 'checkbox' ? checked : value;
+    
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: newValue
     }));
+
+    // Real-time validation
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
   };
 
-  const togglePassword = (field) => {
-    setShowPassword(prev => ({
-      ...prev,
-      [field]: !prev[field]
-    }));
-  };
-
-  const checkPasswordStrength = (password) => {
-    let score = 0;
-    let text = 'Very weak';
-    
-    if (password.length >= 8) score++;
-    if (/[a-z]/.test(password)) score++;
-    if (/[A-Z]/.test(password)) score++;
-    if (/[0-9]/.test(password)) score++;
-    if (/[^A-Za-z0-9]/.test(password)) score++;
-    
-    switch (score) {
-      case 0:
-      case 1:
-        text = 'Very weak';
-        break;
-      case 2:
-        text = 'Weak';
-        break;
-      case 3:
-        text = 'Fair';
-        break;
-      case 4:
-        text = 'Good';
-        break;
-      case 5:
-        text = 'Strong';
-        break;
+  const validateField = (name, value) => {
+    switch (name) {
+      case 'fullName':
+        return validateName(value);
+      case 'email':
+        return validateEmail(value);
+      case 'password':
+        return validatePassword(value);
+      case 'confirmPassword':
+        return value === formData.password ? '' : 'Passwords do not match';
+      case 'terms':
+        return value ? '' : 'You must accept the terms and conditions';
       default:
-        text = 'Very weak';
-    }
-    
-    return { score, text };
-  };
-
-  const checkPasswordMatch = () => {
-    if (formData.confirmPassword && formData.password !== formData.confirmPassword) {
-      setPasswordMatch('Passwords do not match');
-    } else if (formData.confirmPassword && formData.password === formData.confirmPassword) {
-      setPasswordMatch('Passwords match');
-    } else {
-      setPasswordMatch('');
+        return '';
     }
   };
 
   useEffect(() => {
-    if (formData.password) {
-      const strength = checkPasswordStrength(formData.password);
-      setPasswordStrength(strength);
+    if (formData.confirmPassword && formData.password) {
+      const error = validateField('confirmPassword', formData.confirmPassword);
+      if (error !== errors.confirmPassword) {
+        setErrors(prev => ({
+          ...prev,
+          confirmPassword: error
+        }));
+      }
     }
-  }, [formData.password]);
-
-  useEffect(() => {
-    checkPasswordMatch();
   }, [formData.password, formData.confirmPassword]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (formData.password !== formData.confirmPassword) {
-      toast.error('Passwords do not match');
-      return;
-    }
-    
-    if (!formData.terms) {
-      toast.error('Please accept the Terms & Conditions');
+    // Validate form
+    const validationResult = validateForm(formData, {
+      fullName: (value) => validateName(value),
+      email: (value) => validateEmail(value),
+      password: (value) => validatePassword(value),
+      confirmPassword: (value) => value === formData.password ? '' : 'Passwords do not match',
+      terms: (value) => value ? '' : 'You must accept the terms and conditions'
+    });
+
+    if (!validationResult.isValid) {
+      setErrors(validationResult.errors);
+      toast.error('Please fix the errors below');
       return;
     }
 
     setLoading(true);
+    setErrors({});
 
     try {
-      await register({
-        name: formData.fullName,
-        email: formData.email,
-        password: formData.password
-      });
+      const { confirmPassword, terms, newsletter, ...registrationData } = formData;
+      await register(registrationData);
       
       setShowSuccessModal(true);
+      toast.success('Account created successfully!');
     } catch (error) {
+      console.error('Registration error:', error);
       toast.error(error.message || 'Registration failed. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
-  const closeModal = () => {
-    setShowSuccessModal(false);
-    navigate('/dashboard');
-  };
-
   return (
     <>
+      <SEO 
+        title="Sign Up - ReWear Community"
+        description="Join ReWear's sustainable fashion community. Create your account to start swapping clothes and reducing fashion waste."
+        keywords="signup, register, sustainable fashion, clothing exchange, eco-friendly"
+        canonicalUrl="/signup"
+      />
+      
       <div className="container">
         <div className="signup-wrapper">
           {/* Left side - Branding */}
@@ -192,105 +172,64 @@ const SignUp = () => {
 
           {/* Right side - Signup Form */}
           <div className="form-section">
-            <div className="form-container">
+            <Card className="form-container">
               <div className="form-header">
                 <h2>Create Your Account</h2>
                 <p>Start your sustainable fashion journey with ReWear</p>
               </div>
 
+              {loading && <Loading text="Creating your account..." />}
+
               <form className="signup-form" onSubmit={handleSubmit}>
-                <div className="input-group">
-                  <label htmlFor="fullName">Full Name</label>
-                  <div className="input-wrapper">
-                    <i className="fas fa-user"></i>
-                    <input
-                      type="text"
-                      id="fullName"
-                      name="fullName"
-                      placeholder="Enter your full name"
-                      value={formData.fullName}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                </div>
+                <Input
+                  type="text"
+                  name="fullName"
+                  label="Full Name"
+                  placeholder="Enter your full name"
+                  value={formData.fullName}
+                  onChange={handleInputChange}
+                  error={errors.fullName}
+                  icon="fas fa-user"
+                  required
+                />
 
-                <div className="input-group">
-                  <label htmlFor="email">Email Address</label>
-                  <div className="input-wrapper">
-                    <i className="fas fa-envelope"></i>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      placeholder="Enter your email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                </div>
+                <Input
+                  type="email"
+                  name="email"
+                  label="Email Address"
+                  placeholder="Enter your email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  error={errors.email}
+                  icon="fas fa-envelope"
+                  required
+                />
 
-                <div className="input-group">
-                  <label htmlFor="password">Password</label>
-                  <div className="input-wrapper">
-                    <i className="fas fa-lock"></i>
-                    <input
-                      type={showPassword.password ? "text" : "password"}
-                      id="password"
-                      name="password"
-                      placeholder="Create a password"
-                      value={formData.password}
-                      onChange={handleInputChange}
-                      required
-                    />
-                    <button
-                      type="button"
-                      className="toggle-password"
-                      onClick={() => togglePassword('password')}
-                    >
-                      <i className={`fas ${showPassword.password ? 'fa-eye-slash' : 'fa-eye'}`}></i>
-                    </button>
-                  </div>
-                  <div className="password-strength">
-                    <div className="strength-bar">
-                      <div 
-                        className="strength-fill" 
-                        style={{ width: `${(passwordStrength.score / 5) * 100}%` }}
-                      ></div>
-                    </div>
-                    <span className="strength-text">{passwordStrength.text}</span>
-                  </div>
-                </div>
+                <Input
+                  type="password"
+                  name="password"
+                  label="Password"
+                  placeholder="Create a password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  error={errors.password}
+                  icon="fas fa-lock"
+                  showPasswordToggle
+                  required
+                />
 
-                <div className="input-group">
-                  <label htmlFor="confirmPassword">Confirm Password</label>
-                  <div className="input-wrapper">
-                    <i className="fas fa-lock"></i>
-                    <input
-                      type={showPassword.confirmPassword ? "text" : "password"}
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      placeholder="Confirm your password"
-                      value={formData.confirmPassword}
-                      onChange={handleInputChange}
-                      required
-                    />
-                    <button
-                      type="button"
-                      className="toggle-password"
-                      onClick={() => togglePassword('confirmPassword')}
-                    >
-                      <i className={`fas ${showPassword.confirmPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
-                    </button>
-                  </div>
-                  {passwordMatch && (
-                    <div className={`password-match ${passwordMatch === 'Passwords match' ? 'success' : 'error'}`}>
-                      {passwordMatch}
-                    </div>
-                  )}
-                </div>
-
+                <Input
+                  type="password"
+                  name="confirmPassword"
+                  label="Confirm Password"
+                  placeholder="Confirm your password"
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
+                  error={errors.confirmPassword}
+                  icon="fas fa-lock"
+                  showPasswordToggle
+                  required
+                />
                 <div className="form-options">
                   <label className="checkbox-container required-checkbox">
                     <input
@@ -303,6 +242,7 @@ const SignUp = () => {
                     />
                     <span className="checkmark"></span>
                     I agree to the <a href="#" className="link">Terms & Conditions</a> and <a href="#" className="link">Privacy Policy</a>
+                    {errors.terms && <span className="error-text">{errors.terms}</span>}
                   </label>
                   
                   <label className="checkbox-container">
@@ -318,35 +258,37 @@ const SignUp = () => {
                   </label>
                 </div>
 
-                <button 
+                <Button 
                   type="submit" 
-                  className="signup-btn"
+                  variant="primary"
+                  size="large"
+                  loading={loading}
                   disabled={loading}
+                  className="signup-btn"
                 >
-                  <span>{loading ? 'Creating Account...' : 'Create Account'}</span>
-                  <i className="fas fa-arrow-right"></i>
-                </button>
+                  {loading ? 'Creating Account...' : 'Create Account'}
+                </Button>
 
                 <div className="divider">
                   <span>or sign up with</span>
                 </div>
 
                 <div className="social-login">
-                  <button type="button" className="social-btn google">
+                  <Button variant="outline" size="medium" className="social-btn google">
                     <i className="fab fa-google"></i>
                     <span>Google</span>
-                  </button>
-                  <button type="button" className="social-btn facebook">
+                  </Button>
+                  <Button variant="outline" size="medium" className="social-btn facebook">
                     <i className="fab fa-facebook-f"></i>
                     <span>Facebook</span>
-                  </button>
+                  </Button>
                 </div>
 
                 <div className="login-link">
                   <p>Already have an account? <Link to="/login">Sign in</Link></p>
                 </div>
               </form>
-            </div>
+            </Card>
           </div>
         </div>
       </div>
@@ -366,9 +308,12 @@ const SignUp = () => {
               </p>
             </div>
             <div className="modal-footer">
-              <button className="btn-primary" onClick={closeModal}>
+              <Button variant="primary" onClick={() => {
+                setShowSuccessModal(false);
+                navigate('/dashboard');
+              }}>
                 Get Started
-              </button>
+              </Button>
             </div>
           </div>
         </div>

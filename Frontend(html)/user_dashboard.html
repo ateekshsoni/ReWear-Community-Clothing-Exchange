@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ReWear - Your Dashboard</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #f8fff8 0%, #e8f5e8 100%);
+        color: #3d3d3d;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      /* Header */
+      .header {
+        background: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 1rem 0;
+        margin-bottom: 2rem;
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2e7d32;
+      }
+
+      .logo i {
+        font-size: 2rem;
+      }
+
+      .nav-menu {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      .nav-link {
+        color: #666;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      .nav-link:hover,
+      .nav-link.active {
+        color: #2e7d32;
+      }
+
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .profile-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: #81c784;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+      }
+
+      /* Main Content */
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .section-card {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        border-left: 4px solid #81c784;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .section-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #f5f5f5;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #2e7d32;
+      }
+
+      .section-icon {
+        font-size: 1.8rem;
+        color: #81c784;
+      }
+
+      /* Profile Overview */
+      .profile-overview {
+        grid-column: 1 / -1;
+      }
+
+      .profile-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+      }
+
+      .stat-item {
+        text-align: center;
+        padding: 1.5rem;
+        background: #f8fff8;
+        border-radius: 12px;
+        border: 1px solid #e8f5e8;
+      }
+
+      .stat-number {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #2e7d32;
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-label {
+        color: #666;
+        font-weight: 500;
+        font-size: 0.9rem;
+      }
+
+      .impact-message {
+        background: linear-gradient(135deg, #2e7d32, #388e3c);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        text-align: center;
+        margin-top: 1.5rem;
+        font-weight: 500;
+      }
+
+      /* Quick Actions */
+      .quick-actions-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .action-button {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.5rem;
+        background: #f8fff8;
+        border: 2px solid #e8f5e8;
+        border-radius: 12px;
+        text-decoration: none;
+        color: #2e7d32;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .action-button:hover {
+        background: #e8f5e8;
+        border-color: #81c784;
+        transform: translateY(-2px);
+      }
+
+      .action-icon {
+        font-size: 1.5rem;
+        color: #81c784;
+      }
+
+      /* Items Section */
+      .items-grid {
+        grid-column: 1 / -1;
+      }
+
+      .items-tabs {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .tab-button {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        background: #f5f5f5;
+        color: #666;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .tab-button.active {
+        background: #2e7d32;
+        color: white;
+      }
+
+      .items-list {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .item-card {
+        display: flex;
+        gap: 1rem;
+        padding: 1.5rem;
+        background: #f9f9f9;
+        border-radius: 12px;
+        border: 1px solid #eee;
+        transition: all 0.3s ease;
+      }
+
+      .item-card:hover {
+        background: #f5f5f5;
+        transform: translateX(4px);
+      }
+
+      .item-image {
+        width: 80px;
+        height: 80px;
+        background: #e8f5e8;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #2e7d32;
+        font-size: 1.8rem;
+      }
+
+      .item-details {
+        flex: 1;
+      }
+
+      .item-title {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #2e7d32;
+      }
+
+      .item-description {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .item-meta {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.8rem;
+        color: #999;
+      }
+
+      .item-status {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .status-badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+
+      .status-active {
+        background: #e8f5e8;
+        color: #2e7d32;
+      }
+
+      .status-pending {
+        background: #fff3e0;
+        color: #ef6c00;
+      }
+
+      .status-swapped {
+        background: #e3f2fd;
+        color: #1976d2;
+      }
+
+      .status-paused {
+        background: #f3e5f5;
+        color: #7b1fa2;
+      }
+
+      /* Swaps Overview */
+      .swaps-grid {
+        grid-column: 1 / -1;
+      }
+
+      .swaps-section {
+        margin-bottom: 2rem;
+      }
+
+      .swaps-subtitle {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #2e7d32;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .swap-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem;
+        background: #f8fff8;
+        border-radius: 12px;
+        border: 1px solid #e8f5e8;
+        margin-bottom: 1rem;
+      }
+
+      .swap-info {
+        flex: 1;
+      }
+
+      .swap-title {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .swap-details {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .swap-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .btn {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 6px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+      }
+
+      .btn-primary {
+        background: #2e7d32;
+        color: white;
+      }
+
+      .btn-secondary {
+        background: #81c784;
+        color: white;
+      }
+
+      .btn-outline {
+        background: transparent;
+        border: 2px solid #81c784;
+        color: #2e7d32;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .rating-stars {
+        color: #ffa726;
+        margin-left: 0.5rem;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .profile-stats {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .quick-actions-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .nav-menu {
+          display: none;
+        }
+
+        .header-content {
+          justify-content: space-between;
+        }
+
+        .container {
+          padding: 0 1rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .profile-stats {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .section-card {
+        animation: fadeInUp 0.6s ease;
+      }
+
+      .section-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .section-card:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .section-card:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .section-card:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <i class="fas fa-recycle"></i>
+            <span>ReWear</span>
+          </div>
+          <nav>
+            <ul class="nav-menu">
+              <li><a href="#" class="nav-link active">Dashboard</a></li>
+              <li><a href="#" class="nav-link">Browse Items</a></li>
+              <li><a href="#" class="nav-link">My Swaps</a></li>
+              <li><a href="#" class="nav-link">Community</a></li>
+              <li><a href="#" class="nav-link">Rewards</a></li>
+            </ul>
+          </nav>
+          <div class="user-profile">
+            <div>
+              <div style="font-weight: 600; text-align: right">
+                Emma Thompson
+              </div>
+              <div style="font-size: 0.8rem; color: #666">Eco Warrior</div>
+            </div>
+            <div class="profile-avatar">ET</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+      <div class="dashboard-grid">
+        <!-- Profile Overview -->
+        <div class="section-card profile-overview">
+          <div class="section-header">
+            <i class="fas fa-user-circle section-icon"></i>
+            <h2 class="section-title">Your ReWear Profile</h2>
+          </div>
+
+          <div class="profile-stats">
+            <div class="stat-item">
+              <div class="stat-number">247</div>
+              <div class="stat-label">Current Points</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">Mar 2023</div>
+              <div class="stat-label">Member Since</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">12</div>
+              <div class="stat-label">Successful Swaps</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">4.8</div>
+              <div class="stat-label">Community Rating</div>
+            </div>
+          </div>
+
+          <div class="impact-message">
+            <i class="fas fa-heart" style="margin-right: 0.5rem"></i>
+            You've helped save 18 items from landfills! Together, we're making
+            fashion more sustainable.
+          </div>
+        </div>
+
+        <!-- Quick Actions Panel -->
+        <div class="section-card">
+          <div class="section-header">
+            <i class="fas fa-bolt section-icon"></i>
+            <h2 class="section-title">Quick Actions</h2>
+          </div>
+
+          <div class="quick-actions-grid">
+            <a href="#" class="action-button">
+              <i class="fas fa-plus-circle action-icon"></i>
+              <span>List a New Item</span>
+            </a>
+            <a href="#" class="action-button">
+              <i class="fas fa-search action-icon"></i>
+              <span>Browse Available Items</span>
+            </a>
+            <a href="#" class="action-button">
+              <i class="fas fa-exchange-alt action-icon"></i>
+              <span>Check Pending Swaps</span>
+            </a>
+            <a href="#" class="action-button">
+              <i class="fas fa-user-edit action-icon"></i>
+              <span>Update Profile</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Uploaded Items Section -->
+        <div class="section-card items-grid">
+          <div class="section-header">
+            <i class="fas fa-tshirt section-icon"></i>
+            <h2 class="section-title">Your Listed Items</h2>
+          </div>
+
+          <div class="items-tabs">
+            <button class="tab-button active">Active (5)</button>
+            <button class="tab-button">Pending (2)</button>
+            <button class="tab-button">Swapped (12)</button>
+            <button class="tab-button">Paused (1)</button>
+          </div>
+
+          <div class="items-list">
+            <div class="item-card">
+              <div class="item-image">
+                <i class="fas fa-tshirt"></i>
+              </div>
+              <div class="item-details">
+                <div class="item-title">Organic Cotton Summer Dress</div>
+                <div class="item-description">
+                  Beautiful floral print dress, size M, perfect for warm weather
+                </div>
+                <div class="item-meta">
+                  <span><i class="fas fa-eye"></i> 23 views</span>
+                  <span><i class="fas fa-heart"></i> 8 interested</span>
+                  <span><i class="fas fa-clock"></i> Listed 3 days ago</span>
+                </div>
+              </div>
+              <div class="item-status">
+                <span class="status-badge status-active">Active</span>
+              </div>
+            </div>
+
+            <div class="item-card">
+              <div class="item-image">
+                <i class="fas fa-shoe-prints"></i>
+              </div>
+              <div class="item-details">
+                <div class="item-title">Sustainable Bamboo Sneakers</div>
+                <div class="item-description">
+                  Eco-friendly sneakers, size 8, barely worn
+                </div>
+                <div class="item-meta">
+                  <span><i class="fas fa-eye"></i> 41 views</span>
+                  <span><i class="fas fa-heart"></i> 15 interested</span>
+                  <span><i class="fas fa-clock"></i> Listed 1 week ago</span>
+                </div>
+              </div>
+              <div class="item-status">
+                <span class="status-badge status-active">Active</span>
+              </div>
+            </div>
+
+            <div class="item-card">
+              <div class="item-image">
+                <i class="fas fa-gem"></i>
+              </div>
+              <div class="item-details">
+                <div class="item-title">Vintage Jewelry Set</div>
+                <div class="item-description">
+                  Silver necklace and earrings, ethically sourced
+                </div>
+                <div class="item-meta">
+                  <span><i class="fas fa-eye"></i> 18 views</span>
+                  <span><i class="fas fa-heart"></i> 5 interested</span>
+                  <span><i class="fas fa-clock"></i> Listed 5 days ago</span>
+                </div>
+              </div>
+              <div class="item-status">
+                <span class="status-badge status-pending">Pending</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Swaps Overview -->
+        <div class="section-card swaps-grid">
+          <div class="section-header">
+            <i class="fas fa-exchange-alt section-icon"></i>
+            <h2 class="section-title">Your Exchange Activity</h2>
+          </div>
+
+          <div class="swaps-section">
+            <h3 class="swaps-subtitle">
+              <i class="fas fa-clock"></i>
+              Ongoing Swaps (3)
+            </h3>
+
+            <div class="swap-card">
+              <div class="swap-info">
+                <div class="swap-title">
+                  Vintage Denim Jacket ↔ Your Summer Dress
+                </div>
+                <div class="swap-details">
+                  With Sarah M. • Negotiating terms • Waiting for your response
+                </div>
+              </div>
+              <div class="swap-actions">
+                <button class="btn btn-primary">
+                  <i class="fas fa-check"></i> Accept
+                </button>
+                <button class="btn btn-outline">
+                  <i class="fas fa-comment"></i> Message
+                </button>
+              </div>
+            </div>
+
+            <div class="swap-card">
+              <div class="swap-info">
+                <div class="swap-title">Your Bamboo Sneakers → Lisa R.</div>
+                <div class="swap-details">
+                  Points swap • 45 points • Awaiting pickup confirmation
+                </div>
+              </div>
+              <div class="swap-actions">
+                <button class="btn btn-secondary">
+                  <i class="fas fa-truck"></i> Track
+                </button>
+              </div>
+            </div>
+
+            <div class="swap-card">
+              <div class="swap-info">
+                <div class="swap-title">Wool Sweater Request</div>
+                <div class="swap-details">
+                  From Mike C. • Offering 35 points • Review their profile
+                </div>
+              </div>
+              <div class="swap-actions">
+                <button class="btn btn-primary">
+                  <i class="fas fa-eye"></i> Review
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="swaps-section">
+            <h3 class="swaps-subtitle">
+              <i class="fas fa-check-circle"></i>
+              Recent Completed Swaps
+            </h3>
+
+            <div class="swap-card">
+              <div class="swap-info">
+                <div class="swap-title">Eco-friendly Handbag ↔ Your Scarf</div>
+                <div class="swap-details">
+                  With Jennifer L. • Completed 2 days ago
+                  <span class="rating-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="swap-actions">
+                <button class="btn btn-outline">
+                  <i class="fas fa-redo"></i> Swap Again
+                </button>
+              </div>
+            </div>
+
+            <div class="swap-card">
+              <div class="swap-info">
+                <div class="swap-title">Your Belt → Alex K.</div>
+                <div class="swap-details">
+                  Points swap • Earned 25 points • Completed 1 week ago
+                  <span class="rating-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="swap-actions">
+                <button class="btn btn-outline">
+                  <i class="fas fa-comment"></i> Review
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Tab functionality for items section
+      document.addEventListener("DOMContentLoaded", function () {
+        const tabButtons = document.querySelectorAll(".tab-button");
+
+        tabButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            // Remove active class from all tabs
+            tabButtons.forEach((tab) => tab.classList.remove("active"));
+            // Add active class to clicked tab
+            this.classList.add("active");
+
+            // Here you would typically filter the items list
+            // For now, we'll just simulate the tab change
+            console.log("Switched to tab:", this.textContent);
+          });
+        });
+
+        // Navigation functionality
+        const navLinks = document.querySelectorAll(".nav-link");
+        navLinks.forEach((link) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            navLinks.forEach((l) => l.classList.remove("active"));
+            this.classList.add("active");
+          });
+        });
+
+        // Quick action buttons
+        const actionButtons = document.querySelectorAll(".action-button");
+        actionButtons.forEach((button) => {
+          button.addEventListener("click", function (e) {
+            e.preventDefault();
+            console.log("Action clicked:", this.textContent.trim());
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

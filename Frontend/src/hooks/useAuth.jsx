@@ -24,7 +24,6 @@ export const AuthProvider = ({ children }) => {
     checkAuthStatus();
   }, []);
 
-  //checkAuthStatus checks if the user is authenticated by verifying the token
   const checkAuthStatus = async () => {
     try {
       const token = localStorage.getItem("token");

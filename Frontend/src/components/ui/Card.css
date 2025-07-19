@@ -1,0 +1,112 @@
+/* 🃏 Card Component Styles */
+.card {
+  background: white;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+/* Variants */
+.card-default {
+  border: 1px solid #e0e0e0;
+}
+
+.card-bordered {
+  border: 2px solid #2e7d32;
+}
+
+.card-elevated {
+  border: none;
+}
+
+/* Padding */
+.card-padding-none {
+  padding: 0;
+}
+
+.card-padding-small {
+  padding: 1rem;
+}
+
+.card-padding-medium {
+  padding: 1.5rem;
+}
+
+.card-padding-large {
+  padding: 2rem;
+}
+
+/* Shadow */
+.card-shadow-none {
+  box-shadow: none;
+}
+
+.card-shadow-small {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.card-shadow-medium {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.card-shadow-large {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Hover effects */
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.card-clickable {
+  cursor: pointer;
+}
+
+.card-clickable:hover {
+  transform: translateY(-1px);
+}
+
+/* Card sections */
+.card-header {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 1rem;
+}
+
+.card-body {
+  flex: 1;
+}
+
+.card-footer {
+  padding-top: 1rem;
+  border-top: 1px solid #f0f0f0;
+  margin-top: 1rem;
+}
+
+/* When used with Card component padding, override section padding */
+.card-padding-none .card-header,
+.card-padding-none .card-body,
+.card-padding-none .card-footer {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.card-padding-none .card-header {
+  padding-top: 1.5rem;
+}
+
+.card-padding-none .card-footer {
+  padding-bottom: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card-padding-medium {
+    padding: 1rem;
+  }
+  
+  .card-padding-large {
+    padding: 1.5rem;
+  }
+}

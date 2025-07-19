@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ReWear - List Your Item</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div class="app-container">
+      <header>
+        <div class="logo">
+          <h1><span class="re">Re</span>Wear</h1>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="#" class="active">List Item</a></li>
+            <li><a href="#">Browse</a></li>
+            <li><a href="#">My Items</a></li>
+            <li><a href="#">Profile</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <main class="container">
+        <section class="intro-section">
+          <h1>List Your Item</h1>
+          <p class="intro-text">
+            Share your pre-loved pieces with the ReWear community. Every item
+            you list earns you points and helps reduce fashion waste!
+          </p>
+        </section>
+
+        <div class="content-wrapper">
+          <section class="tips-section">
+            <div class="tips-card">
+              <h2>
+                <i class="fas fa-lightbulb"></i> Photo Tips for Better Swaps
+              </h2>
+              <ul>
+                <li><i class="fas fa-sun"></i> Use natural lighting</li>
+                <li>
+                  <i class="fas fa-tshirt"></i> Show the item laid flat or on a
+                  hanger
+                </li>
+                <li>
+                  <i class="fas fa-search"></i> Include detail shots of any wear
+                  or unique features
+                </li>
+                <li>
+                  <i class="fas fa-images"></i> Minimum 3 photos, maximum 8
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <form id="item-listing-form">
+              <!-- Photo Upload Section -->
+              <div class="form-group photo-upload">
+                <h3>Photos</h3>
+                <div class="upload-container">
+                  <div class="upload-area" id="upload-area">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Drag photos here or click to upload</p>
+                    <input
+                      type="file"
+                      id="photo-input"
+                      multiple
+                      accept="image/*"
+                      class="file-input"
+                    />
+                  </div>
+                  <div class="photo-previews" id="photo-previews"></div>
+                </div>
+                <p class="photo-counter">
+                  <span id="photo-count">0</span>/8 photos uploaded
+                </p>
+              </div>
+
+              <!-- Basic Information Section -->
+              <div class="form-group">
+                <h3>Basic Information</h3>
+                <div class="input-group">
+                  <label for="item-title"
+                    >Title <span class="required">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="item-title"
+                    placeholder="What are you listing?"
+                    required
+                  />
+                </div>
+                <div class="input-group">
+                  <label for="item-brand">Brand</label>
+                  <input
+                    type="text"
+                    id="item-brand"
+                    placeholder="Optional but recommended"
+                  />
+                </div>
+                <div class="input-group">
+                  <label for="item-category"
+                    >Category <span class="required">*</span></label
+                  >
+                  <select id="item-category" required>
+                    <option value="" disabled selected>
+                      Select a category
+                    </option>
+                    <option value="tops">Tops</option>
+                    <option value="bottoms">Bottoms</option>
+                    <option value="dresses">Dresses & Jumpsuits</option>
+                    <option value="outerwear">Outerwear</option>
+                    <option value="shoes">Shoes</option>
+                    <option value="accessories">Accessories</option>
+                  </select>
+                </div>
+                <div class="input-group">
+                  <label for="item-type"
+                    >Type <span class="required">*</span></label
+                  >
+                  <select id="item-type" required disabled>
+                    <option value="" disabled selected>
+                      Select a category first
+                    </option>
+                  </select>
+                </div>
+                <div class="input-group">
+                  <label for="item-size"
+                    >Size <span class="required">*</span></label
+                  >
+                  <div class="size-selection">
+                    <select id="item-size" required>
+                      <option value="" disabled selected>Select a size</option>
+                      <option value="xs">XS</option>
+                      <option value="s">S</option>
+                      <option value="m">M</option>
+                      <option value="l">L</option>
+                      <option value="xl">XL</option>
+                      <option value="xxl">XXL</option>
+                    </select>
+                    <button
+                      type="button"
+                      class="size-guide-btn"
+                      id="size-guide-btn"
+                    >
+                      Size Chart
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Condition Assessment Section -->
+              <div class="form-group">
+                <h3>Condition Assessment <span class="required">*</span></h3>
+                <div class="condition-options">
+                  <div class="condition-option">
+                    <input
+                      type="radio"
+                      id="condition-excellent"
+                      name="condition"
+                      value="excellent"
+                      required
+                    />
+                    <label for="condition-excellent">
+                      <span class="condition-title">Excellent</span>
+                      <span class="condition-desc"
+                        >Like new, no visible wear</span
+                      >
+                    </label>
+                  </div>
+                  <div class="condition-option">
+                    <input
+                      type="radio"
+                      id="condition-good"
+                      name="condition"
+                      value="good"
+                    />
+                    <label for="condition-good">
+                      <span class="condition-title">Good</span>
+                      <span class="condition-desc"
+                        >Minor wear, well-maintained</span
+                      >
+                    </label>
+                  </div>
+                  <div class="condition-option">
+                    <input
+                      type="radio"
+                      id="condition-fair"
+                      name="condition"
+                      value="fair"
+                    />
+                    <label for="condition-fair">
+                      <span class="condition-title">Fair</span>
+                      <span class="condition-desc"
+                        >Some wear but still great quality</span
+                      >
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Description Section -->
+              <div class="form-group">
+                <h3>Description <span class="required">*</span></h3>
+                <div class="input-group">
+                  <textarea
+                    id="item-description"
+                    rows="5"
+                    placeholder="Tell us about this item's story, what makes it special, why you're parting with it, and any styling tips"
+                    required
+                  ></textarea>
+                  <div class="description-prompt">
+                    <p>Consider including:</p>
+                    <ul>
+                      <li>This item's story</li>
+                      <li>What makes it special</li>
+                      <li>Why you're parting with it</li>
+                      <li>Styling tips</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tags Section -->
+              <div class="form-group">
+                <h3>Tags & Keywords</h3>
+                <p class="tag-intro">Help others find your item</p>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    id="tag-input"
+                    placeholder="Add tags (e.g., vintage, formal, casual, designer)"
+                  />
+                  <button type="button" id="add-tag-btn">Add</button>
+                </div>
+                <div class="tags-container" id="tags-container"></div>
+              </div>
+
+              <!-- Submission Section -->
+              <div class="submission-section">
+                <h3>Ready to List?</h3>
+                <p>Please review all information before submitting</p>
+                <button type="submit" class="submit-btn">
+                  Submit for Review
+                </button>
+                <p class="review-note">
+                  Items are typically approved within 24 hours
+                </p>
+              </div>
+            </form>
+          </section>
+        </div>
+      </main>
+
+      <!-- Size Chart Modal -->
+      <div class="modal" id="size-chart-modal">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <h2>Size Chart Reference</h2>
+          <div class="size-chart">
+            <table>
+              <thead>
+                <tr>
+                  <th>Size</th>
+                  <th>US</th>
+                  <th>UK</th>
+                  <th>EU</th>
+                  <th>Bust (in)</th>
+                  <th>Waist (in)</th>
+                  <th>Hip (in)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>XS</td>
+                  <td>0-2</td>
+                  <td>4-6</td>
+                  <td>32-34</td>
+                  <td>31-33</td>
+                  <td>24-26</td>
+                  <td>34-36</td>
+                </tr>
+                <tr>
+                  <td>S</td>
+                  <td>4-6</td>
+                  <td>8-10</td>
+                  <td>36-38</td>
+                  <td>33-35</td>
+                  <td>26-28</td>
+                  <td>36-38</td>
+                </tr>
+                <tr>
+                  <td>M</td>
+                  <td>8-10</td>
+                  <td>12-14</td>
+                  <td>40-42</td>
+                  <td>35-37</td>
+                  <td>28-30</td>
+                  <td>38-40</td>
+                </tr>
+                <tr>
+                  <td>L</td>
+                  <td>12-14</td>
+                  <td>16-18</td>
+                  <td>44-46</td>
+                  <td>37-40</td>
+                  <td>30-33</td>
+                  <td>40-43</td>
+                </tr>
+                <tr>
+                  <td>XL</td>
+                  <td>16-18</td>
+                  <td>20-22</td>
+                  <td>48-50</td>
+                  <td>40-43</td>
+                  <td>33-36</td>
+                  <td>43-46</td>
+                </tr>
+                <tr>
+                  <td>XXL</td>
+                  <td>20-22</td>
+                  <td>24-26</td>
+                  <td>52-54</td>
+                  <td>43-46</td>
+                  <td>36-40</td>
+                  <td>46-49</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="footer-content">
+          <p>&copy; 2025 ReWear. All rights reserved.</p>
+          <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact Us</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

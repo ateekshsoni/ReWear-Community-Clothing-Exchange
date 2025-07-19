@@ -1,43 +1,154 @@
-// 🔧 API Service Functions
-// Centralized API calls for all backend endpoints
+// 🔧 Enhanced API Service Functions
+// Centralized API calls with error handling, caching, and retry logic
 
 import axiosInstance from './axiosInstance';
+import { 
+  handleApiError, 
+  formatApiResponse, 
+  retryApiCall,
+  cacheApiResponse,
+  getCachedApiResponse,
+  createPaginationParams,
+  createFilterParams
+} from '../utils/apiUtils';
 
 // 🔐 Authentication APIs
 export const authAPI = {
   register: async (userData) => {
-    const response = await axiosInstance.post('/auth/register', userData);
-    return response.data;
+    try {
+      const response = await retryApiCall(() => 
+        axiosInstance.post('/auth/register', userData)
+      );
+      const result = formatApiResponse(response);
+      
+      // Cache user data after successful registration
+      if (result.data.user) {
+        cacheApiResponse('current_user', result.data.user, 30 * 60 * 1000); // 30 min
+      }
+      
+      return result.data;
+    } catch (error) {
+      handleApiError(error, 'Registration failed');
+      throw error;
+    }
   },
 
   login: async (credentials) => {
-    const response = await axiosInstance.post('/auth/login', credentials);
-    return response.data;
+    try {
+      const response = await retryApiCall(() => 
+        axiosInstance.post('/auth/login', credentials)
+      );
+      const result = formatApiResponse(response);
+      
+      // Cache user data after successful login
+      if (result.data.user) {
+        cacheApiResponse('current_user', result.data.user, 30 * 60 * 1000); // 30 min
+      }
+      
+      return result.data;
+    } catch (error) {
+      handleApiError(error, 'Login failed');
+      throw error;
+    }
   },
 
-  getProfile: async () => {
-    const response = await axiosInstance.get('/auth/profile');
-    return response.data;
+  getProfile: async (useCache = true) => {
+    try {
+      // Check cache first
+      if (useCache) {
+        const cached = getCachedApiResponse('current_user');
+        if (cached) return { user: cached };
+      }
+      
+      const response = await axiosInstance.get('/auth/profile');
+      const result = formatApiResponse(response);
+      
+      // Update cache
+      if (result.data.user) {
+        cacheApiResponse('current_user', result.data.user, 30 * 60 * 1000);
+      }
+      
+      return result.data;
+    } catch (error) {
+      handleApiError(error, 'Failed to load profile');
+      throw error;
+    }
   },
 
   updateProfile: async (profileData) => {
-    const response = await axiosInstance.put('/auth/profile', profileData);
-    return response.data;
+    try {
+      const response = await axiosInstance.put('/auth/profile', profileData);
+      const result = formatApiResponse(response);
+      
+      // Update cache with new profile data
+      if (result.data.user) {
+        cacheApiResponse('current_user', result.data.user, 30 * 60 * 1000);
+      }
+      
+      return result.data;
+    } catch (error) {
+      handleApiError(error, 'Failed to update profile');
+      throw error;
+    }
   },
 
   changePassword: async (passwordData) => {
-    const response = await axiosInstance.post('/auth/change-password', passwordData);
-    return response.data;
+    try {
+      const response = await axiosInstance.post('/auth/change-password', passwordData);
+      return formatApiResponse(response).data;
+    } catch (error) {
+      handleApiError(error, 'Failed to change password');
+      throw error;
+    }
   },
 
   verifyToken: async () => {
-    const response = await axiosInstance.post('/auth/verify-token');
-    return response.data;
+    try {
+      const response = await axiosInstance.post('/auth/verify-token');
+      return formatApiResponse(response).data;
+    } catch (error) {
+      handleApiError(error, 'Token verification failed');
+      throw error;
+    }
   },
 
   logout: async () => {
-    const response = await axiosInstance.post('/auth/logout');
-    return response.data;
+    try {
+      const response = await axiosInstance.post('/auth/logout');
+      
+      // Clear all cached data on logout
+      sessionStorage.clear();
+      
+      return formatApiResponse(response).data;
+    } catch (error) {
+      // Still clear cache even if logout request fails
+      sessionStorage.clear();
+      handleApiError(error, 'Logout failed');
+      throw error;
+    }
+  },
+
+  forgotPassword: async (email) => {
+    try {
+      const response = await axiosInstance.post('/auth/forgot-password', { email });
+      return formatApiResponse(response).data;
+    } catch (error) {
+      handleApiError(error, 'Failed to send reset email');
+      throw error;
+    }
+  },
+
+  resetPassword: async (token, newPassword) => {
+    try {
+      const response = await axiosInstance.post('/auth/reset-password', {
+        token,
+        password: newPassword
+      });
+      return formatApiResponse(response).data;
+    } catch (error) {
+      handleApiError(error, 'Failed to reset password');
+      throw error;
+    }
   }
 };
 

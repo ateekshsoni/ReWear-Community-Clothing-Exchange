@@ -58,12 +58,6 @@ const userSchema = new mongoose.Schema(
       default: null,
     },
 
-    bio: {
-      type: String,
-      maxlength: [500, "Bio cannot exceed 500 characters"],
-      default: "",
-    },
-
     // 🔧 Additional fields you might need for your hackathon
     // phoneNumber: {
     //   type: String,

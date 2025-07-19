@@ -1,15 +1,16 @@
 // 🔧 Landing Page Component
-// Main landing page converted from HTML to React
+// Main landing page converted from HTML to React with reusable components
 
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import '../LandingPage.css';
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { SEO, Button, Card, Loading } from "../components";
+import "../LandingPage.css";
 
 const LandingPage = () => {
   const [loading, setLoading] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,10 +25,10 @@ const LandingPage = () => {
   const handleSignUp = (e) => {
     e.preventDefault();
     if (email) {
-      toast.success('Thanks for joining! Redirecting to sign up...');
-      navigate('/signup');
+      toast.success("Thanks for joining! Redirecting to sign up...");
+      navigate("/signup");
     } else {
-      toast.error('Please enter a valid email address');
+      toast.error("Please enter a valid email address");
     }
   };
 
@@ -37,13 +38,37 @@ const LandingPage = () => {
 
   return (
     <>
+      {/* SEO Meta Tags */}
+      <SEO
+        title="Sustainable Clothing Exchange Platform"
+        description="Join ReWear, the sustainable fashion community where your unworn clothes find new homes while you discover pre-loved treasures. Start swapping today!"
+        keywords="sustainable fashion, clothing exchange, second-hand clothes, eco-friendly fashion, clothing swap, pre-loved fashion"
+        type="website"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "name": "ReWear",
+          "description": "Sustainable clothing exchange platform",
+          "url": "https://rewear.com",
+          "applicationCategory": "LifestyleApplication",
+          "operatingSystem": "Web",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          }
+        }}
+      />
+
       {/* Loading Screen */}
       {loading && (
         <div className="loading-screen">
-          <div className="loading-spinner">
-            <div className="spinner"></div>
-            <p>Loading ReWear...</p>
-          </div>
+          <Loading 
+            type="spinner" 
+            size="large" 
+            text="Loading ReWear..." 
+            fullScreen 
+          />
         </div>
       )}
 
@@ -53,15 +78,23 @@ const LandingPage = () => {
           <div className="nav-logo">
             <h2>ReWear</h2>
           </div>
-          <ul className={`nav-menu ${mobileMenuOpen ? 'active' : ''}`}>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#how-it-works">How It Works</a></li>
-            <li><a href="#featured">Featured</a></li>
-            <li><a href="#about">About</a></li>
+          <ul className={`nav-menu ${mobileMenuOpen ? "active" : ""}`}>
             <li>
-              <button className="nav-cta">
+              <a href="#home">Home</a>
+            </li>
+            <li>
+              <a href="#how-it-works">How It Works</a>
+            </li>
+            <li>
+              <a href="#featured">Featured</a>
+            </li>
+            <li>
+              <a href="#about">About</a>
+            </li>
+            <li>
+              <Button variant="primary" size="medium">
                 <Link to="/signup">Sign Up</Link>
-              </button>
+              </Button>
             </li>
           </ul>
           <div className="hamburger" onClick={toggleMobileMenu}>
@@ -99,24 +132,30 @@ const LandingPage = () => {
               clothes find new homes while you discover pre-loved treasures.
             </p>
             <div className="hero-buttons">
-              <button 
-                className="btn btn-primary" 
-                onClick={() => navigate('/browse')}
+              <Button
+                variant="primary"
+                size="large"
+                onClick={() => navigate("/browse")}
+                icon={<i className="fas fa-arrow-right"></i>}
               >
                 Start Swapping
-              </button>
-              <button 
-                className="btn btn-secondary"
-                onClick={() => navigate('/browse')}
+              </Button>
+              <Button
+                variant="secondary"
+                size="large"
+                onClick={() => navigate("/browse")}
+                icon={<i className="fas fa-search"></i>}
               >
                 Browse Items
-              </button>
-              <button 
-                className="btn btn-tertiary"
-                onClick={() => navigate('/list-item')}
+              </Button>
+              <Button
+                variant="tertiary"
+                size="large"
+                onClick={() => navigate("/list-item")}
+                icon={<i className="fas fa-plus"></i>}
               >
                 List an Item
-              </button>
+              </Button>
             </div>
             <div className="trust-badge">
               <span>🌿 Trusted by 5,000+ eco-conscious users</span>
@@ -183,10 +222,15 @@ const LandingPage = () => {
                 <span className="icon">@</span>
               </div>
             </div>
-            <button type="submit" className="btn btn-primary">
-              <span>Sign Up</span>
-              <span className="btn-icon">🌱</span>
-            </button>
+            <Button 
+              type="submit" 
+              variant="primary"
+              size="large"
+              fullWidth
+              icon={<span className="btn-icon">🌱</span>}
+            >
+              Sign Up
+            </Button>
             <div className="privacy-note">
               We respect your privacy. No spam, ever.
             </div>
@@ -200,8 +244,8 @@ const LandingPage = () => {
           <h2 className="section-title">Fashion Forward, Planet Friendly</h2>
           <p className="intro-text">
             Every year, millions of tons of clothing end up in landfills while
-            people crave fresh styles. ReWear bridges this gap with a sustainable
-            solution that benefits everyone.
+            people crave fresh styles. ReWear bridges this gap with a
+            sustainable solution that benefits everyone.
           </p>
           <div className="stats-container">
             <div className="stat-item">
@@ -228,17 +272,26 @@ const LandingPage = () => {
             <div className="step">
               <div className="step-icon">📷</div>
               <h3>List Your Items</h3>
-              <p>Take photos of clothes you no longer wear and list them on our platform</p>
+              <p>
+                Take photos of clothes you no longer wear and list them on our
+                platform
+              </p>
             </div>
             <div className="step">
               <div className="step-icon">🔍</div>
               <h3>Browse & Connect</h3>
-              <p>Discover items you love and connect with other fashion enthusiasts</p>
+              <p>
+                Discover items you love and connect with other fashion
+                enthusiasts
+              </p>
             </div>
             <div className="step">
               <div className="step-icon">🔄</div>
               <h3>Swap & Enjoy</h3>
-              <p>Exchange items safely and give your wardrobe a sustainable refresh</p>
+              <p>
+                Exchange items safely and give your wardrobe a sustainable
+                refresh
+              </p>
             </div>
           </div>
         </div>
@@ -278,12 +331,14 @@ const LandingPage = () => {
             </div>
           </div>
           <div className="view-more">
-            <button 
-              className="btn btn-secondary"
-              onClick={() => navigate('/browse')}
+            <Button
+              variant="secondary"
+              size="large"
+              onClick={() => navigate("/browse")}
+              icon={<i className="fas fa-arrow-right"></i>}
             >
               View All Items
-            </button>
+            </Button>
           </div>
         </div>
       </section>
@@ -295,9 +350,10 @@ const LandingPage = () => {
             <div className="about-text">
               <h2>About ReWear</h2>
               <p>
-                ReWear was born from a simple idea: fashion should be sustainable,
-                accessible, and fun. We're building a community where style meets
-                sustainability, where every swap reduces waste and creates connections.
+                ReWear was born from a simple idea: fashion should be
+                sustainable, accessible, and fun. We're building a community
+                where style meets sustainability, where every swap reduces waste
+                and creates connections.
               </p>
               <div className="impact-stats">
                 <div className="impact-item">
@@ -324,18 +380,22 @@ const LandingPage = () => {
             <h2>Ready to Transform Your Wardrobe?</h2>
             <p>Join thousands of fashion lovers making a positive impact</p>
             <div className="cta-buttons">
-              <button 
-                className="btn btn-primary"
-                onClick={() => navigate('/signup')}
+              <Button
+                variant="primary"
+                size="large"
+                onClick={() => navigate("/signup")}
+                icon={<i className="fas fa-rocket"></i>}
               >
                 Get Started Today
-              </button>
-              <button 
-                className="btn btn-secondary"
-                onClick={() => navigate('/login')}
+              </Button>
+              <Button
+                variant="outline"
+                size="large"
+                onClick={() => navigate("/login")}
+                icon={<i className="fas fa-sign-in-alt"></i>}
               >
                 Already a Member?
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -353,25 +413,43 @@ const LandingPage = () => {
               <div className="link-group">
                 <h4>Platform</h4>
                 <ul>
-                  <li><Link to="/browse">Browse Items</Link></li>
-                  <li><Link to="/list-item">List an Item</Link></li>
-                  <li><Link to="/success-stories">Success Stories</Link></li>
+                  <li>
+                    <Link to="/browse">Browse Items</Link>
+                  </li>
+                  <li>
+                    <Link to="/list-item">List an Item</Link>
+                  </li>
+                  <li>
+                    <Link to="/success-stories">Success Stories</Link>
+                  </li>
                 </ul>
               </div>
               <div className="link-group">
                 <h4>Account</h4>
                 <ul>
-                  <li><Link to="/login">Log In</Link></li>
-                  <li><Link to="/signup">Sign Up</Link></li>
-                  <li><Link to="/dashboard">Dashboard</Link></li>
+                  <li>
+                    <Link to="/login">Log In</Link>
+                  </li>
+                  <li>
+                    <Link to="/signup">Sign Up</Link>
+                  </li>
+                  <li>
+                    <Link to="/dashboard">Dashboard</Link>
+                  </li>
                 </ul>
               </div>
               <div className="link-group">
                 <h4>Support</h4>
                 <ul>
-                  <li><a href="#help">Help Center</a></li>
-                  <li><a href="#contact">Contact Us</a></li>
-                  <li><a href="#privacy">Privacy Policy</a></li>
+                  <li>
+                    <a href="#help">Help Center</a>
+                  </li>
+                  <li>
+                    <a href="#contact">Contact Us</a>
+                  </li>
+                  <li>
+                    <a href="#privacy">Privacy Policy</a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -386,3 +464,4 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+ 

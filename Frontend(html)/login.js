@@ -1,81 +1,106 @@
 // Toggle password visibility
 function togglePassword() {
-    const passwordInput = document.getElementById('password');
-    const toggleIcon = document.getElementById('toggleIcon');
-    
-    if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        toggleIcon.classList.remove('fa-eye');
-        toggleIcon.classList.add('fa-eye-slash');
-    } else {
-        passwordInput.type = 'password';
-        toggleIcon.classList.remove('fa-eye-slash');
-        toggleIcon.classList.add('fa-eye');
-    }
+  const passwordInput = document.getElementById("password");
+  const toggleIcon = document.getElementById("toggleIcon");
+
+  if (passwordInput.type === "password") {
+    passwordInput.type = "text";
+    toggleIcon.classList.remove("fa-eye");
+    toggleIcon.classList.add("fa-eye-slash");
+  } else {
+    passwordInput.type = "password";
+    toggleIcon.classList.remove("fa-eye-slash");
+    toggleIcon.classList.add("fa-eye");
+  }
 }
 
 // Form submission handler
-document.getElementById('loginForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const loginBtn = document.querySelector('.login-btn');
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    
-    // Basic validation
-    if (!email || !password) {
-        showNotification('Please fill in all fields', 'error');
-        return;
-    }
-    
-    if (!isValidEmail(email)) {
-        showNotification('Please enter a valid email address', 'error');
-        return;
-    }
-    
-    // Add loading state
-    loginBtn.classList.add('loading');
-    
-    // Simulate API call
+document.getElementById("loginForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const loginBtn = document.querySelector(".login-btn");
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  // Basic validation
+  if (!email || !password) {
+    showNotification("Please fill in all fields", "error");
+    return;
+  }
+
+  if (!isValidEmail(email)) {
+    showNotification("Please enter a valid email address", "error");
+    return;
+  }
+
+  // Add loading state
+  loginBtn.classList.add("loading");
+
+  // Simulate API call
+  setTimeout(() => {
+    loginBtn.classList.remove("loading");
+    showNotification("Login successful! Redirecting...", "success");
+
+    // Simulate redirect after successful login
     setTimeout(() => {
-        loginBtn.classList.remove('loading');
-        showNotification('Login successful! Redirecting...', 'success');
-        
-        // Simulate redirect after successful login
-        setTimeout(() => {
-            // window.location.href = '/dashboard';
-            console.log('Redirecting to dashboard...');
-        }, 1500);
-    }, 2000);
+      let formData = {
+        email: email,
+        password: password,
+      };
+      axios
+        .post("http://localhost:3001/api/auth/login", formData)
+        .then((response) => {
+          if (response.status === 200) {
+            window.localStorage.setItem("token", response.data.token);
+            showNotification(
+              "Login successful! Redirecting to dashboard...",
+              "success"
+            );
+            window.location.href = "item-detail.html"; // Redirect to dashboard
+          }
+          if (response.status === 401) {
+            showNotification("Invalid email or password", "error");
+          }
+        });
+      // window.location.href = '/dashboard';
+      console.log("Redirecting to dashboard...");
+    }, 1500);
+  }, 2000);
 });
 
 // Email validation
 function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
 }
 
 // Notification system
-function showNotification(message, type = 'info') {
-    // Remove existing notifications
-    const existingNotification = document.querySelector('.notification');
-    if (existingNotification) {
-        existingNotification.remove();
-    }
-    
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.innerHTML = `
+function showNotification(message, type = "info") {
+  // Remove existing notifications
+  const existingNotification = document.querySelector(".notification");
+  if (existingNotification) {
+    existingNotification.remove();
+  }
+
+  // Create notification element
+  const notification = document.createElement("div");
+  notification.className = `notification ${type}`;
+  notification.innerHTML = `
         <div class="notification-content">
-            <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+            <i class="fas ${
+              type === "success"
+                ? "fa-check-circle"
+                : type === "error"
+                ? "fa-exclamation-circle"
+                : "fa-info-circle"
+            }"></i>
             <span>${message}</span>
         </div>
     `;
-    
-    // Add notification styles
-    const style = document.createElement('style');
-    style.textContent = `
+
+  // Add notification styles
+  const style = document.createElement("style");
+  style.textContent = `
         .notification {
             position: fixed;
             top: 20px;
@@ -130,42 +155,46 @@ function showNotification(message, type = 'info') {
             }
         }
     `;
-    
-    document.head.appendChild(style);
-    document.body.appendChild(notification);
-    
-    // Auto remove notification
+
+  document.head.appendChild(style);
+  document.body.appendChild(notification);
+
+  // Auto remove notification
+  setTimeout(() => {
+    notification.style.animation = "slideOut 0.3s ease";
     setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease';
-        setTimeout(() => {
-            notification.remove();
-            style.remove();
-        }, 300);
-    }, 4000);
+      notification.remove();
+      style.remove();
+    }, 300);
+  }, 4000);
 }
 
 // Social login handlers
-document.querySelector('.social-btn.google').addEventListener('click', function() {
-    showNotification('Google login integration coming soon!', 'info');
-});
+document
+  .querySelector(".social-btn.google")
+  .addEventListener("click", function () {
+    showNotification("Google login integration coming soon!", "info");
+  });
 
-document.querySelector('.social-btn.facebook').addEventListener('click', function() {
-    showNotification('Facebook login integration coming soon!', 'info');
-});
+document
+  .querySelector(".social-btn.facebook")
+  .addEventListener("click", function () {
+    showNotification("Facebook login integration coming soon!", "info");
+  });
 
 // Input focus animations
-document.querySelectorAll('.input-wrapper input').forEach(input => {
-    input.addEventListener('focus', function() {
-        this.parentElement.classList.add('focused');
-    });
-    
-    input.addEventListener('blur', function() {
-        this.parentElement.classList.remove('focused');
-    });
+document.querySelectorAll(".input-wrapper input").forEach((input) => {
+  input.addEventListener("focus", function () {
+    this.parentElement.classList.add("focused");
+  });
+
+  input.addEventListener("blur", function () {
+    this.parentElement.classList.remove("focused");
+  });
 });
 
 // Add focused state styles
-const focusStyle = document.createElement('style');
+const focusStyle = document.createElement("style");
 focusStyle.textContent = `
     .input-wrapper.focused {
         transform: translateY(-2px);
@@ -178,47 +207,51 @@ focusStyle.textContent = `
 document.head.appendChild(focusStyle);
 
 // Keyboard navigation enhancement
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' && e.target.tagName !== 'BUTTON' && e.target.type !== 'submit') {
-        const form = e.target.closest('form');
-        if (form) {
-            const submitBtn = form.querySelector('button[type="submit"]');
-            if (submitBtn) {
-                submitBtn.click();
-            }
-        }
+document.addEventListener("keydown", function (e) {
+  if (
+    e.key === "Enter" &&
+    e.target.tagName !== "BUTTON" &&
+    e.target.type !== "submit"
+  ) {
+    const form = e.target.closest("form");
+    if (form) {
+      const submitBtn = form.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.click();
+      }
     }
+  }
 });
 
 // Remember me functionality
-document.getElementById('remember').addEventListener('change', function() {
-    if (this.checked) {
-        localStorage.setItem('rememberMe', 'true');
-    } else {
-        localStorage.removeItem('rememberMe');
-    }
+document.getElementById("remember").addEventListener("change", function () {
+  if (this.checked) {
+    localStorage.setItem("rememberMe", "true");
+  } else {
+    localStorage.removeItem("rememberMe");
+  }
 });
 
 // Check if user should be remembered on page load
-window.addEventListener('load', function() {
-    const rememberMe = localStorage.getItem('rememberMe');
-    if (rememberMe === 'true') {
-        document.getElementById('remember').checked = true;
-        // You could also pre-fill the email if stored securely
-    }
+window.addEventListener("load", function () {
+  const rememberMe = localStorage.getItem("rememberMe");
+  if (rememberMe === "true") {
+    document.getElementById("remember").checked = true;
+    // You could also pre-fill the email if stored securely
+  }
 });
 
 // Add smooth scroll behavior
-document.documentElement.style.scrollBehavior = 'smooth';
+document.documentElement.style.scrollBehavior = "smooth";
 
 // Performance optimization - lazy load background animations
-const brandSection = document.querySelector('.brand-section');
+const brandSection = document.querySelector(".brand-section");
 const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('animate');
-        }
-    });
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("animate");
+    }
+  });
 });
 
 observer.observe(brandSection);

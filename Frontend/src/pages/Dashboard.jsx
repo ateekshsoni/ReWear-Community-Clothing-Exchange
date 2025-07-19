@@ -1,10 +1,15 @@
 // 🎛️ Dashboard Page Component
-// User dashboard converted from HTML to React
+// User dashboard with reusable components and enhanced UX
 
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAuth } from '../hooks/useAuth';
+import Button from '../components/ui/Button';
+import Card from '../components/ui/Card';
+import Loading from '../components/ui/Loading';
+import SEO from '../components/common/SEO';
+import Navigation from '../components/layout/Navigation';
 import '../user.css';
 
 const Dashboard = () => {

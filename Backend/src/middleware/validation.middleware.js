@@ -177,5 +177,5 @@ export {
   validateTaskUpdate,
   validateObjectId,
   validatePagination,
-  schemas
+  schemas,
 };

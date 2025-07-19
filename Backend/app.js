@@ -1,5 +1,4 @@
 import express from "express";
-import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import cors from "cors";
@@ -15,8 +14,10 @@ import { config } from "./src/config/database.js";
 //importing routes
 import authRoutes from "./src/routes/auth.routes.js";
 import productRoutes from "./src/routes/productRoutes.js";
-import { errorMiddleware, notFoundMiddleware } from "./src/middleware/errorMiddleware.js";
-
+import {
+  errorMiddleware,
+  notFoundMiddleware,
+} from "./src/middleware/errorMiddleware.js";
 
 //initializing express app
 const app = express();
@@ -82,7 +83,11 @@ app.use(
 
       const allowedOrigins = config.CLIENT_URL
         ? config.CLIENT_URL.split(",")
-        : ["http://localhost:3000", "http://localhost:5173"];
+        : [
+            "http://localhost:3000",
+            "http://localhost:5173",
+            "http://127.0.0.1:5500",
+          ];
 
       if (allowedOrigins.includes(origin)) {
         callback(null, true);
